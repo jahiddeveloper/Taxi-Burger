@@ -9,12 +9,28 @@ let loadCategory = () => {
 }
 
 
+// Remove Active
+
+let removeActive = () => {
+
+    let allBtns = document.querySelectorAll(".all-btn")
+
+    allBtns.forEach((allBtn) => {
+        allBtn.classList.remove("active");
+    })
+}
+
+
 // loadCategoryId
 
 let loadCategoryId = (id) => {
     fetch(` https://taxi-kitchen-api.vercel.app/api/v1/categories/${id}`)
         .then(res => res.json())
         .then(json => {
+
+            removeActive();
+            let categoryBtn = document.getElementById(`category-btn-${id}`)
+            categoryBtn.classList.add("active");
             // console.log(json.foods)
             displayCategoryId(json.foods);
         })
@@ -37,11 +53,11 @@ let loadRandomData = () => {
 
 let loadFoodDetails = (id) => {
     fetch(`https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}`)
-    .then(res => res.json())
-    .then(json => {
-        // console.log(json.details);
-        displayDetails(json.details);
-    })
+        .then(res => res.json())
+        .then(json => {
+            // console.log(json.details);
+            displayDetails(json.details);
+        })
 }
 
 let displayDetails = (details) => {
@@ -62,7 +78,7 @@ let displayDetails = (details) => {
               <a class="btn btn-warning" href="">Watch Video</a>
     `
 
-        document.getElementById("my_modal_5").showModal();
+    document.getElementById("my_modal_5").showModal();
 
 }
 
@@ -128,7 +144,7 @@ let displayCategory = (categories) => {
         let div = document.createElement("div");
 
         div.innerHTML = `
-            <button onclick="loadCategoryId(${category.id})" class="btn btn-block shadow btn-category justify-start">
+            <button id="category-btn-${category.id}" onclick="loadCategoryId(${category.id})" class="btn btn-block shadow btn-category justify-start all-btn">
                 <img
                     src="${category.categoryImg}"
                 alt=""

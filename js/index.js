@@ -1,11 +1,11 @@
 
 let loadCategory = () => {
-    fetch(" https://taxi-kitchen-api.vercel.app/api/v1/categories")
-        .then(res => res.json())
-        .then(json => {
-            // console.log(json.categories)
-            displayCategory(json.categories);
-        })
+  fetch(" https://taxi-kitchen-api.vercel.app/api/v1/categories")
+    .then(res => res.json())
+    .then(json => {
+      // console.log(json.categories)
+      displayCategory(json.categories);
+    })
 }
 
 
@@ -13,57 +13,62 @@ let loadCategory = () => {
 
 let removeActive = () => {
 
-    let allBtns = document.querySelectorAll(".all-btn")
+  let allBtns = document.querySelectorAll(".all-btn")
 
-    allBtns.forEach((allBtn) => {
-        allBtn.classList.remove("active");
-    })
+  allBtns.forEach((allBtn) => {
+    allBtn?.classList?.remove("active");
+  })
 }
 
 
 // loadCategoryId
 
 let loadCategoryId = (id) => {
-    fetch(` https://taxi-kitchen-api.vercel.app/api/v1/categories/${id}`)
-        .then(res => res.json())
-        .then(json => {
 
-            removeActive();
-            let categoryBtn = document.getElementById(`category-btn-${id}`)
-            categoryBtn.classList.add("active");
-            // console.log(json.foods)
-            displayCategoryId(json.foods);
-        })
+  document.getElementById("food-container").classList.add("hidden");
+  document.getElementById("loading-spinner").classList.remove("hidden");
+
+
+  fetch(` https://taxi-kitchen-api.vercel.app/api/v1/categories/${id}`)
+    .then(res => res.json())
+    .then(json => {
+
+      removeActive();
+      let categoryBtn = document.getElementById(`category-btn-${id}`)
+      categoryBtn?.classList?.add("active");
+      // console.log(json.foods)
+      displayCategoryId(json.foods);
+    })
 }
 
 
 // loadRandomData
 
 let loadRandomData = () => {
-    fetch(" https://taxi-kitchen-api.vercel.app/api/v1/foods/random")
-        .then(res => res.json())
-        .then(json => {
-            // console.log(json.foods)
-            displayCategoryId(json.foods);
-        })
+  fetch(" https://taxi-kitchen-api.vercel.app/api/v1/foods/random")
+    .then(res => res.json())
+    .then(json => {
+      // console.log(json.foods)
+      displayCategoryId(json.foods);
+    })
 }
 
 
 // loadFoodDetails
 
 let loadFoodDetails = (id) => {
-    fetch(`https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}`)
-        .then(res => res.json())
-        .then(json => {
-            // console.log(json.details);
-            displayDetails(json.details);
-        })
+  fetch(`https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}`)
+    .then(res => res.json())
+    .then(json => {
+      // console.log(json.details);
+      displayDetails(json.details);
+    })
 }
 
 let displayDetails = (details) => {
-    let detailsContainer = document.getElementById("details-container");
+  let detailsContainer = document.getElementById("details-container");
 
-    detailsContainer.innerHTML = `
+  detailsContainer.innerHTML = `
             <h2 class="text-3xl font-bold">${details.title}</h2>
             <br>
               <div>
@@ -78,7 +83,7 @@ let displayDetails = (details) => {
               <a class="btn btn-warning" href="">Watch Video</a>
     `
 
-    document.getElementById("my_modal_5").showModal();
+  document.getElementById("my_modal_5").showModal();
 
 }
 
@@ -87,14 +92,14 @@ loadFoodDetails();
 
 let displayCategoryId = (foods) => {
 
-    let foodContainer = document.getElementById("food-container");
-    foodContainer.innerHTML = "";
+  let foodContainer = document.getElementById("food-container");
+  foodContainer.innerHTML = "";
 
-    foods.forEach((food) => {
+  foods.forEach((food) => {
 
-        let div = document.createElement("div");
+    let div = document.createElement("div");
 
-        div.innerHTML = `
+    div.innerHTML = `
         <div onclick="loadFoodDetails(${food.id})" class="p-5 bg-white flex gap-3 shadow-lg rounded-xl mt-5 cursor-pointer hover:scale-105 hover:transition duration-300">
             <div class="img flex-1">
               <img
@@ -124,9 +129,13 @@ let displayCategoryId = (foods) => {
         </div>
         `
 
-        foodContainer.append(div);
+    foodContainer.append(div);
 
-    })
+  })
+
+  document.getElementById("food-container").classList.remove("hidden");
+  document.getElementById("loading-spinner").classList.add("hidden");
+
 }
 
 loadRandomData();
@@ -136,14 +145,14 @@ loadCategoryId();
 
 let displayCategory = (categories) => {
 
-    let categoryContainer = document.getElementById("category-container");
-    categoryContainer.innerHTML = "";
+  let categoryContainer = document.getElementById("category-container");
+  categoryContainer.innerHTML = "";
 
-    categories.forEach(category => {
+  categories.forEach(category => {
 
-        let div = document.createElement("div");
+    let div = document.createElement("div");
 
-        div.innerHTML = `
+    div.innerHTML = `
             <button id="category-btn-${category.id}" onclick="loadCategoryId(${category.id})" class="btn btn-block shadow btn-category justify-start all-btn">
                 <img
                     src="${category.categoryImg}"
@@ -153,9 +162,9 @@ let displayCategory = (categories) => {
             </button>
         `
 
-        categoryContainer.append(div)
+    categoryContainer.append(div)
 
-    })
+  })
 }
 
 loadCategory();

@@ -13,11 +13,11 @@ let loadCategory = () => {
 
 let loadCategoryId = (id) => {
     fetch(` https://taxi-kitchen-api.vercel.app/api/v1/categories/${id}`)
-    .then(res => res.json())
-    .then(json => {
-        // console.log(json.foods)
-        displayCategoryId(json.foods);
-    })
+        .then(res => res.json())
+        .then(json => {
+            // console.log(json.foods)
+            displayCategoryId(json.foods);
+        })
 }
 
 
@@ -25,25 +25,61 @@ let loadCategoryId = (id) => {
 
 let loadRandomData = () => {
     fetch(" https://taxi-kitchen-api.vercel.app/api/v1/foods/random")
-    .then(res => res.json())
-    .then(json => {
-        // console.log(json.foods)
-        displayCategoryId(json.foods);
-    })
+        .then(res => res.json())
+        .then(json => {
+            // console.log(json.foods)
+            displayCategoryId(json.foods);
+        })
 }
 
 
+// loadFoodDetails
+
+let loadFoodDetails = (id) => {
+    fetch(`https://taxi-kitchen-api.vercel.app/api/v1/foods/${id}`)
+    .then(res => res.json())
+    .then(json => {
+        // console.log(json.details);
+        displayDetails(json.details);
+    })
+}
+
+let displayDetails = (details) => {
+    let detailsContainer = document.getElementById("details-container");
+
+    detailsContainer.innerHTML = `
+            <h2 class="text-3xl font-bold">${details.title}</h2>
+            <br>
+              <div>
+                <img src="${details.foodImg}" alt="">
+              </div>
+              <br>
+              <div class="badge badge-warning">
+                ${details.category}
+              </div>
+              <br>
+              <br>
+              <a class="btn btn-warning" href="">Watch Video</a>
+    `
+
+        document.getElementById("my_modal_5").showModal();
+
+}
+
+loadFoodDetails();
+
+
 let displayCategoryId = (foods) => {
-    
+
     let foodContainer = document.getElementById("food-container");
     foodContainer.innerHTML = "";
-    
+
     foods.forEach((food) => {
-        
+
         let div = document.createElement("div");
 
         div.innerHTML = `
-        <div class="p-5 bg-white flex gap-3 shadow-lg rounded-xl mt-5">
+        <div onclick="loadFoodDetails(${food.id})" class="p-5 bg-white flex gap-3 shadow-lg rounded-xl mt-5 cursor-pointer hover:scale-105 hover:transition duration-300">
             <div class="img flex-1">
               <img
                 src="${food.foodImg}"

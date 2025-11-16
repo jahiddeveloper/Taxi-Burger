@@ -20,6 +20,19 @@ let loadCategoryId = (id) => {
     })
 }
 
+
+// loadRandomData
+
+let loadRandomData = () => {
+    fetch(" https://taxi-kitchen-api.vercel.app/api/v1/foods/random")
+    .then(res => res.json())
+    .then(json => {
+        // console.log(json.foods)
+        displayCategoryId(json.foods);
+    })
+}
+
+
 let displayCategoryId = (foods) => {
     
     let foodContainer = document.getElementById("food-container");
@@ -64,6 +77,7 @@ let displayCategoryId = (foods) => {
     })
 }
 
+loadRandomData();
 loadCategoryId();
 
 

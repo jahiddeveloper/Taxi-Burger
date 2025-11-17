@@ -90,6 +90,9 @@ let displayDetails = (details) => {
 loadFoodDetails();
 
 
+let card = [];
+let total = 0;
+
 let displayCategoryId = (foods) => {
 
   let foodContainer = document.getElementById("food-container");
@@ -105,11 +108,11 @@ let displayCategoryId = (foods) => {
               <img
                 src="${food.foodImg}"
                 alt=""
-                class="w-[160px] rounded-xl h-[160px] object-cover"
+                class="w-[160px] rounded-xl h-[160px] object-cover food-img"
               />
             </div>
             <div class="flex-2">
-              <h1 class="text-xl font-bold">
+              <h1 class="text-xl font-bold food-title">
                 ${food.title}
               </h1>
 
@@ -117,11 +120,11 @@ let displayCategoryId = (foods) => {
 
               <div class="divider divider-end">
                 <h2 class="text-yellow-600 font-semibold">
-                  $ <span class="price">${food.price}</span> BDT
+                  $ <span class="price food-price">${food.price}</span> BDT
                 </h2>
               </div>
 
-              <button class="btn btn-warning">
+              <button onclick="addToCart(this)" class="btn btn-warning">
                 <i class="fa-solid fa-square-plus"></i>
                 Add This Item
               </button>
@@ -168,3 +171,61 @@ let displayCategory = (categories) => {
 }
 
 loadCategory();
+
+let addToCart = (btn) => {
+  let cart = btn.parentNode.parentNode;
+  let foodTitle = cart.querySelector(".food-title").innerText;
+  let foodImg = cart.querySelector(".food-img").src;
+  let foodPrice = parseInt(cart.querySelector(".food-price").innerText);
+
+  let selectedItem = {
+    title: foodTitle,
+    img: foodImg,
+    price: foodPrice,
+  }
+  card.push(selectedItem);
+  displayAddCart(card);
+}
+
+displayAddCart = (carts) => {
+  let cartContainer = document.getElementById("cart-container");
+  cartContainer.innerHTML = "";
+
+  for (let cart of carts) {
+
+    let div = document.createElement("div");
+
+    div.innerHTML = `
+    <div class="p-1 bg-white flex gap-3 shadow-lg rounded-xl relative mt-2">
+            <div class="img">
+              <img
+                src="${cart.img}"
+                alt=""
+                class="w-[50px] rounded-xl h-[50px] object-cover"
+              />
+            </div>
+            <div class="flex-1">
+              <h1 class="text-xs font-bold">
+                ${cart.title}
+              </h1>
+
+              <div class="">
+                <h2 class="text-yellow-600 font-semibold">
+                  ৳ <span class="price">${cart.price}</span> BDT
+                </h2>
+              </div>
+            </div>
+            <div
+              class="w-6 h-6 flex justify-center items-center bg-red-600 rounded-full absolute -top-1 -right-1 text-white cursor-pointer"
+            >
+              <i class="fa-solid fa-xmark"></i>
+            </div>
+          </div>
+    `
+
+    cartContainer.append(div);
+
+  }
+}
+
+addToCart();

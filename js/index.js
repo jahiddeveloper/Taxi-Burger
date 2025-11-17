@@ -173,6 +173,7 @@ let displayCategory = (categories) => {
 loadCategory();
 
 let addToCart = (btn) => {
+
   let cart = btn.parentNode.parentNode;
   let foodTitle = cart.querySelector(".food-title").innerText;
   let foodImg = cart.querySelector(".food-img").src;
@@ -184,8 +185,18 @@ let addToCart = (btn) => {
     price: foodPrice,
   }
   card.push(selectedItem);
+  total = total + foodPrice;
   displayAddCart(card);
+  displayTotal(total);
 }
+
+
+let displayTotal = (value) => {
+
+  document.getElementById("total-price").innerText = value;
+
+}
+
 
 displayAddCart = (carts) => {
   let cartContainer = document.getElementById("cart-container");
